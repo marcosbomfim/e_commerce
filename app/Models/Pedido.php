@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Rules\pedidoRule;
 class Pedido extends Model
 {
     use HasFactory;
@@ -24,12 +24,30 @@ class Pedido extends Model
         return $this->belongsToMany('App\Models\Produto', 'pedidos_produtos');
     }
 
-    public function regras(){
+    public function regras($custom = []){
 
-        return  [
+        $regras = [
             'cliente_id' =>array("required", "exists:App\Models\Cliente,id"),
+            'remocao' => array(new PedidoRule)
             
         ];
+        if(count($custom)==0){
+
+            return $regras;
+        }
+
+        $regrasCustom = [];
+
+        foreach($custom as $chave=>$valor){
+
+            if(array_key_exists($chave, $regras)){
+
+                $regrasCustom[$chave]=$regras[$chave];
+            }
+
+        }
+            
+        return $regrasCustom;
 
     }
     public function feedback(){

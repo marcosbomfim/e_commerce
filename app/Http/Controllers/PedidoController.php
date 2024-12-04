@@ -118,7 +118,8 @@ class PedidoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       
+          return Response('Ação proibida', 401);
     }
 
     /**
@@ -127,8 +128,27 @@ class PedidoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $request['remocao'] = $id;
+
+        $regras = $this->pedido->regras($request->all());
+
+        $feedBack = $this->pedido->feedBack();
+
+        $request->validate($regras, $feedBack);
+
+        return $regras;
+
+        $pedido = $this->pedido->find($id);
+
+        if($pedido){
+
+            $pedido->delete();
+
+            return Response()->json(['msg' => 'Pedido removido com sucesso'], 200);
+        }
+
+        return Response(['msg' => 'Falha ao remover pedido'], 500);
     }
 }

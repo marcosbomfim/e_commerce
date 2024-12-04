@@ -83,7 +83,29 @@ class PedidoProdutoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $pedidoProduto = $this->pedidoProduto->find($id);
+
+        if($pedidoProduto){
+
+            $valores = $request->all();
+
+            $cpf = ($request->has('cpf')) ? $request->cpf : null;
+
+            $regras = $this->pedidoProduto->regras($valores, $ignoreCPF = $cpf);
+            $feedBack = $this->pedidoProduto->feedBack();
+
+            $request->validate($regras, $feedBack);
+
+            if($pedidoProduto->update($valores)){
+
+                $pedidoProduto = $this->pedidoProduto->find($id);
+
+                return Response()->json($pedidoProduto->toArray(), 200);
+            }
+
+        }
+
+        return Response(['msg' => 'Falha ao encontrar cliente'], 500);
     }
 
     /**
@@ -94,6 +116,15 @@ class PedidoProdutoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pedidoProduto = $this->pedidoProduto->find($id);
+
+        if($pedidoProduto){
+
+            $pedidoProduto->delete();
+
+            return Response()->json(['msg' => 'Produtos removidos do pedido com sucesso'], 200);
+        }
+
+        return Response(['msg' => 'Falha ao remover produtos do pedido'], 500);
     }
 }
