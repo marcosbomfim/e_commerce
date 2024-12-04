@@ -81,5 +81,5 @@ Endpoint: /produto/{id}
 <h5>Retorno - 201, 422, 500</h5> 
 Retora mensagem de confirmação
 <p></p>
-<h1>Demais end pois seguem a mesma logica de requisição</h1>
+<h1>Demais endpoints seguem a mesma logica de requisição</h1>
 
