@@ -2,6 +2,7 @@
 
 <h1>Documentação</h1>
 <h2>Url Base - localhost:8000</h2>
+<h3>Endpoints: cliente, pedido, produto, padidoProduto, categoria, pagamento
 <h3>Clientes - GET </h3>
 Endpoint: /cliente
 <h5>Retorno - 200, 500</h5> 
@@ -80,4 +81,5 @@ Endpoint: /produto/{id}
 <h5>Retorno - 201, 422, 500</h5> 
 Retora mensagem de confirmação
 <p></p>
+<h1>Demais end pois seguem a mesma logica de requisição</h1>
 
