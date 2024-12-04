@@ -138,8 +138,6 @@ class PedidoController extends Controller
 
         $request->validate($regras, $feedBack);
 
-        return $regras;
-
         $pedido = $this->pedido->find($id);
 
         if($pedido){

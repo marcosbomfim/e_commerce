@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Rules\CategoriaRule;
 
 class Categoria extends Model
 {
@@ -16,12 +17,31 @@ class Categoria extends Model
         return $this->hasMany('App\Models\Produto');
     }
 
-    public function regras(){
+    public function regras($custom = []){
 
-        return  [
-            'nome_categoria' =>array("required", "max:255"),
-            
+        $regras = [
+            'nome_categoria' => array("required", "max:255"),
+            'remocao' => array(new CategoriaRule)
         ];
+
+        if(count($custom)==0){
+
+            return $regras;
+        }
+
+        $regrasCustom = [];
+
+        foreach($custom as $chave=>$valor){
+
+            if(array_key_exists($chave, $regras)){
+
+                $regrasCustom[$chave]=$regras[$chave];
+            }
+
+        }
+            
+        return $regrasCustom;
+
 
     }
     public function feedback(){

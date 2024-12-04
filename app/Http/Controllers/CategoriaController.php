@@ -155,8 +155,16 @@ class CategoriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $request['remocao'] = $id;
+
+        $regras = $this->categoria->regras($request->all());
+
+        $feedBack = $this->categoria->feedBack();
+
+        $request->validate($regras, $feedBack);
+
         $categoria = $this->categoria->find($id);
 
         if($categoria){

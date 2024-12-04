@@ -14,7 +14,6 @@ class CreatePedidosProdutosTable extends Migration
     public function up()
     {
         Schema::create('pedidos_produtos', function (Blueprint $table) {
-            $table->id();
             $table->timestamps();
             $table->integer('quantidade');
             $table->unsignedBigInteger('pedido_id');
@@ -22,6 +21,7 @@ class CreatePedidosProdutosTable extends Migration
 
             $table->foreign('pedido_id')->references('id')->on('pedidos');
             $table->foreign('produto_id')->references('id')->on('produtos');
+            $table->primary(['pedido_id', 'produto_id']);
         });
     }
 

@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Rules\pedidoRule;
+use App\Rules\PedidoRule;
+
 class Pedido extends Model
 {
     use HasFactory;

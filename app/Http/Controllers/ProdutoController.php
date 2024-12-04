@@ -155,9 +155,17 @@ class ProdutoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        
+
+        $request['remocao'] = $id;
+
+        $regras = $this->produto->regras($request->all());
+
+        $feedBack = $this->produto->feedBack();
+
+        $request->validate($regras, $feedBack); //poderia utilizar validator tbm;
+
         $produto = $this->produto->find($id);
 
         if($produto){

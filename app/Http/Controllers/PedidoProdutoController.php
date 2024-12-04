@@ -18,7 +18,16 @@ class PedidoProdutoController extends Controller
      */
     public function index()
     {
-        
+        $pedidoProduto = $this->pedidoProduto->all();
+
+        if($pedidoProduto){
+
+            return Response()->json($pedidoProduto->toArray(), 200);
+
+        }else{
+
+            return Response([], 404);
+        }
     }
 
     /**
@@ -56,11 +65,21 @@ class PedidoProdutoController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $pedidoProduto = $this->getIdComposto($id);
+
+        if($pedidoProduto){
+
+            return Response()->json($pedidoProduto->toArray(), 200);
+
+        }else{
+
+            return Response([], 404);
+        }
     }
 
     /**
@@ -83,15 +102,15 @@ class PedidoProdutoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $pedidoProduto = $this->pedidoProduto->find($id);
+     
+   
+        $pedidoProduto = $this->getIdComposto($id);
 
         if($pedidoProduto){
 
-            $valores = $request->all();
-
-            $cpf = ($request->has('cpf')) ? $request->cpf : null;
-
-            $regras = $this->pedidoProduto->regras($valores, $ignoreCPF = $cpf);
+            $request['update'] = true;
+           
+            $regras = $this->pedidoProduto->regras($request->all());
             $feedBack = $this->pedidoProduto->feedBack();
 
             $request->validate($regras, $feedBack);
@@ -105,7 +124,7 @@ class PedidoProdutoController extends Controller
 
         }
 
-        return Response(['msg' => 'Falha ao encontrar cliente'], 500);
+        return Response(['msg' => 'Falha ao atualizar produtos do pedido'], 500);
     }
 
     /**
@@ -114,17 +133,38 @@ class PedidoProdutoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $pedidoProduto = $this->pedidoProduto->find($id);
+        $pedidoProduto = $this->getIdComposto($id);
 
         if($pedidoProduto){
+            
+            $request['delete'] = $request['pedido_id'];
+            $regras = $this->pedidoProduto->regras($request->all());
+            $feedBack = $this->pedidoProduto->feedBack();
+
+            $request->validate($regras, $feedBack);
 
             $pedidoProduto->delete();
 
-            return Response()->json(['msg' => 'Produtos removidos do pedido com sucesso'], 200);
+            return Response()->json(['msg' => 'Produto removido do pedido com sucesso'], 200);
+
+        }else{
+            return Response(['msg' => 'Pedido ou produto não encontrado'], 404);
         }
 
-        return Response(['msg' => 'Falha ao remover produtos do pedido'], 500);
+        
+    }
+
+    public function getIdComposto($id){
+
+        $idComposto = str_split($id,  $length = 1);
+
+        $pedido_id = (int)$idComposto[0];
+        $produto_id = (int)$idComposto[1];
+
+        $pedidoProduto = $this->pedidoProduto->find([$pedido_id, $produto_id]);
+
+        return $pedidoProduto;
     }
 }

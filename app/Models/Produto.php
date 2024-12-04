@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Rules\ProdutoRule;
 
 class Produto extends Model
 {
@@ -26,7 +27,8 @@ class Produto extends Model
             'nome_produto' =>array("required", "max:255"),
             'valor' => array("required", "numeric"),
             'total_estoque' => array("required" , "integer", "max:11"),
-            'categoria_id' => array("required", "exists:App\Models\Categoria,id")
+            'categoria_id' => array("required", "exists:App\Models\Categoria,id"),
+            'remocao' => array(new ProdutoRule)
         ];
 
         if(count($custom)==0){
