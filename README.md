@@ -81,5 +81,39 @@ Endpoint: /produto/{id}
 <h5>Retorno - 201, 422, 500</h5> 
 Retora mensagem de confirmação
 <p></p>
+
+<h3>PedidoProdutos - GET</h3>
+Endpoint: /pedidoProduto/{pedido_id}{produto_id}
+Obs:O id de pedidoProduto trabalha com chave composta, portanto deve informar o pedido_id e produto_id
+<h5>Exemplo: /pedidoProduto/14</h5>
+<h5>Retorno - 201, 422, 500</h5> 
+Retora o pedido e o produto relacionado
+<p></p>
+
+<h3>PedidoProdutos - GET</h3>
+Endpoint: /pedidoProduto
+<h5>Exemplo: /pedidoProduto</h5>
+<h5>Retorno - 201, 422, 500</h5> 
+Retora todos os produtos relacionados aos pedidos
+<p></p>
+
+<h3>Pedido Produtos - UPDATE</h3>
+Endpoint: /pedidoProduto/{pedido_id}{produto_id}
+<h5>Exemplo: /pedidoProduto/14</h5>
+Obs:O id de pedidoProduto trabalha com chave composta, portanto deve informar o pedido_id e produto_id
+<h5>Body - pedido_id:Int, produto_id:Int, quantidade:Int</h5>
+<h5>Retorno - 201, 422, 500</h5> 
+Retora o pedidoProduto alterado ou erro
+<p></p>
+
+<h3>Pedido Produtos - DELETE</h3>
+Endpoint: /pedidoProduto/{pedido_id}{produto_id}
+<h5>Exemplo: /pedidoProduto/14</h5>
+Obs:O id de pedidoProduto trabalha com chave composta, portanto deve informar o pedido_id e produto_id
+
+<h5>Retorno - 201, 422, 500</h5> 
+Retora sucesso ou erro
+<p></p>
+<p></p>
 <h1>Demais endpoints seguem a mesma logica de requisição</h1>
 
